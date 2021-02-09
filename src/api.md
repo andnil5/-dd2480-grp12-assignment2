@@ -1,16 +1,15 @@
 ## CI api with GitHub
 
-### Adds a commit status
-
+### Add a commit status for a given commit SHA
 
     POST 'https://api.github.com/repos/andnil5/-dd2480-grp12-assignment2/statuses/{SHA}'
 
-Adds a commit status for a given commit SHA. The user can set the parameters as follows: 
+#### Parameters
 
 | Name 	        | In 	    | Description 	                        |
 |---	        |---	    |---	                                |
 | SHA 	        | path 	    | The commit SHA. 	|
-| TOKEN         | header  	| Authorization token, will probably change value. |
+| TOKEN         | header  	| Authorization token. |
 | state         | body  	| The status, either: error, failure, pending, or success. |
 | context       | body  	| A short header/id. This will be overrittwen if used several times for a commit. |
 | description   | body  	| A short description of the status.    |
@@ -22,24 +21,35 @@ Adds a commit status for a given commit SHA. The user can set the parameters as 
 import json
 import requests
 
-headers = {
-    'Accept': 'application/vnd.github.v3+json'
-    'Authorization': 'bearer {TOKEN}'
-}
-payload = {
-    'context': '{context}',
-    'state': '{state}',
-    'description': '{description}',
-    'target_url': '{target_url}'
-}
+def setCommitStatus(sha, context, state, description, url):
+    headers = {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': 'bearer ' + TOKEN
+    }
+    payload = {
+        'context': context,
+        'state': state,
+        'description': description,
+        'target_url': url # TO BE CONFIGURED
+    }
+    return requests.post(
+        'https://api.github.com/repos/andnil5/-dd2480-grp12-assignment2/statuses/'+sha, 
+        headers = headers, 
+        data = json.dumps(payload)
+    )
 
-r = requests.post(
-    'https://api.github.com/repos/andnil5/-dd2480-grp12-assignment2/statuses/9359355448127e17eb8721f67e80adad4c8e96b9', 
-    headers = headers, 
-    data = json.dumps(payload)
+response = setCommitStatus(
+    sha='7739e6525afd1258dcbe5fc393572ca9e48c6d08', 
+    context='Context...: ',
+    state='pending',
+    description='LGTM',
+    url='http://d5735d731f01.ngrok.io'
 )
-print r.status_code
-print r.text
+
+print()
+print(response.status_code)
+print()
+print(response.text)
 ```
 
 #### Default response
