@@ -29,12 +29,21 @@ def webhook():
         data = ci_utils.parse(request.json)
         if 'error' in data:
             abort(400)
+
         # Set commit compile status flag to pending
         Status_response(10, StatusType.compile, data['head_commit'], '').send_status()
+
         # Set commit test status flag to pending
         Status_response(10, StatusType.test, data['head_commit'], '').send_status()
+
         # Setup branch repo to git_repo which is gitignored
         ci_utils.setup_repo(data['branch'])
+
+        # Run compile
+        response = ci_utils.run_compile(data['branch'], data['head_commit'])
+        response.send_status()
+
+        ci_utils.change_dir("../")
         return 'success', 200
     else:
         abort(400)

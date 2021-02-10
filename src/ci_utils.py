@@ -1,7 +1,9 @@
 import subprocess
 from subprocess import check_output  # Remove?
 import os
+import sys
 from datetime import datetime
+from status_response import Status_response, StatusType
 
 
 def parse(data):
@@ -43,3 +45,10 @@ def log_to_file(file, branch, sha, p):
         log.write("\n{date} :: {branch} -- {sha}:\n".format(date=datetime.now(), branch=branch, sha=sha))
         # print the test output to the log
         log.write(p.stdout.decode('utf-8'))
+
+
+def run_compile(branch, sha):
+    sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
+    file = "logs_compile/{}_{}.txt".format(branch, sha)
+    log_to_file(file, branch, sha, sub_proc)
+    return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
