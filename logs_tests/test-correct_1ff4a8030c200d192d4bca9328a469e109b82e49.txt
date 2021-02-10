@@ -1,0 +1,22 @@
+
+2021-02-10 10:23:39.730174 :: test-correct -- 1ff4a8030c200d192d4bca9328a469e109b82e49:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py .                                                    [100%]
+
+============================== 1 passed in 0.02s ===============================
+
+2021-02-10 11:32:31.070659 :: test-correct -- 1ff4a8030c200d192d4bca9328a469e109b82e49:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py .                                                    [100%]
+
+============================== 1 passed in 0.03s ===============================

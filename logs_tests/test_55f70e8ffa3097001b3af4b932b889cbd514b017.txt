@@ -1,0 +1,154 @@
+
+2021-02-10 09:38:48.883804 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.08s ===============================
+
+2021-02-10 10:03:33.208455 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.07s ===============================
+
+2021-02-10 10:08:31.873704 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.07s ===============================
+
+2021-02-10 10:09:05.244491 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.06s ===============================
+
+2021-02-10 10:11:56.266947 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.08s ===============================
+
+2021-02-10 10:14:02.539167 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.07s ===============================
+
+2021-02-10 10:24:36.822042 :: test -- 55f70e8ffa3097001b3af4b932b889cbd514b017:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.06s ===============================

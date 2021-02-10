@@ -1,0 +1,88 @@
+
+2021-02-10 10:28:13.591369 :: test -- eac0436f701ebf310155be97c3149f42b9eb607c:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.07s ===============================
+
+2021-02-10 11:19:02.559836 :: test -- eac0436f701ebf310155be97c3149f42b9eb607c:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.06s ===============================
+
+2021-02-10 11:20:56.007677 :: test -- eac0436f701ebf310155be97c3149f42b9eb607c:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.05s ===============================
+
+2021-02-10 11:28:44.724838 :: test -- eac0436f701ebf310155be97c3149f42b9eb607c:
+============================= test session starts ==============================
+platform darwin -- Python 3.7.4, pytest-6.2.2, py-1.10.0, pluggy-0.13.0
+rootdir: /Users/dimo/Desktop/master-p3/DD2480-Software-Engineering/CI/-dd2480-grp12-assignment2/git_repo
+plugins: arraydiff-0.3, remotedata-0.3.2, doctestplus-0.4.0, openfiles-0.4.0
+collected 1 item
+
+tests/test_utils.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_parse __________________________________
+
+    def test_parse():
+        assert 1==1
+>       assert 2==1
+E       assert 2 == 1
+
+tests/test_utils.py:6: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_utils.py::test_parse - assert 2 == 1
+============================== 1 failed in 0.07s ===============================
