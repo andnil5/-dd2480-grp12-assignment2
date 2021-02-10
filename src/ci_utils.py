@@ -1,6 +1,7 @@
 import subprocess
-from subprocess import check_output
+from subprocess import check_output  # Remove?
 import os
+from datetime import datetime
 
 
 def parse(data):
@@ -34,3 +35,11 @@ def setup_repo(branch):
         if p.wait() != 0:
             print("Failed!!!")
             break
+
+
+def log_to_file(file, branch, sha, p):
+    with open("../" + file, 'a+') as log:
+        # print meta data about test run to the log
+        log.write("\n{date} :: {branch} -- {sha}:\n".format(date=datetime.now(), branch=branch, sha=sha))
+        # print the test output to the log
+        log.write(p.stdout.decode('utf-8'))

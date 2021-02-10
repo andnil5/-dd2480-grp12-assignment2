@@ -6,6 +6,22 @@ from status_response import Status_response, StatusType
 app = Flask(__name__)
 
 
+def readFile(name):
+    with open(name) as f:
+        file_content = f.read()
+    return file_content
+
+
+@app.route('/logs_compile/<name>')
+def get_logfile_compile(name):
+    return readFile("./logs_compile/{}".format(name))
+
+
+@app.route('/logs_tests/<name>')
+def get_logfile_test(name):
+    return readFile("./logs_tests/{}".format(name))
+
+
 @app.route('/hook', methods=['POST'])
 def webhook():
     """Default route for GitHub webhook. Gets called at every push to any branch."""
