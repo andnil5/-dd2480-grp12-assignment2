@@ -1,3 +1,8 @@
+import subprocess
+from subprocess import check_output
+import os
+
+
 def parse(data):
     """Parse the json webhook input from github."""
     res = {}
@@ -13,3 +18,19 @@ def parse(data):
     else:
         res['error'] = 'Missing key'
     return res
+
+
+def change_dir(dir):
+    """helper function to change dir"""
+    os.chdir(dir)
+
+
+def setup_repo(branch):
+    """clone the branch repo"""
+    change_dir("./git_repo")
+    cmd = [["git", "fetch"], ["git", "checkout", branch], ["git", "pull"]]
+    for c in cmd:
+        p = subprocess.Popen(c)
+        if p.wait() != 0:
+            print("Failed!!!")
+            break

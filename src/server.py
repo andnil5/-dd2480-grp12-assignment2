@@ -17,6 +17,8 @@ def webhook():
         Status_response(10, StatusType.compile, data['head_commit'], '').send_status()
         # Set commit test status flag to pending
         Status_response(10, StatusType.test, data['head_commit'], '').send_status()
+        # Setup branch repo to git_repo which is gitignored
+        ci_utils.setup_repo(data['branch'])
         return 'success', 200
     else:
         abort(400)
