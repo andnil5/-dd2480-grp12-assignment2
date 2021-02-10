@@ -43,6 +43,10 @@ def webhook():
         response = ci_utils.run_compile(data['branch'], data['head_commit'])
         response.send_status()
 
+        # Run tests
+        response = ci_utils.run_test(data['branch'], data['head_commit'])
+        response.send_status()
+
         ci_utils.change_dir("../")
         return 'success', 200
     else:

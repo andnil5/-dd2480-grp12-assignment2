@@ -52,3 +52,10 @@ def run_compile(branch, sha):
     file = "logs_compile/{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
     return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
+
+
+def run_test(branch, sha):
+    sub_proc = subprocess.run(["python", "-m", "pytest"], capture_output=True)
+    file = "logs_tests/{}_{}.txt".format(branch, sha)
+    log_to_file(file, branch, sha, sub_proc)
+    return Status_response(sub_proc.returncode, StatusType.test, sha, file)
