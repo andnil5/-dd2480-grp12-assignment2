@@ -7,6 +7,16 @@ app = Flask(__name__)
 
 
 def readFile(name):
+    """Get the content of a (non-binary) file.
+
+    Parameters
+    ----------
+    name: A path to the file that should be read - A string.
+
+    Returns
+    ----------
+    string: The content of the file.
+    """
     with open(name) as f:
         file_content = f.read()
     return file_content
@@ -14,11 +24,33 @@ def readFile(name):
 
 @app.route('/logs_compile/<name>')
 def get_logfile_compile(name):
+    """Show full flake8 output of a specific flake8 run.
+
+    Parameters
+    ----------
+    name: The name of the log-file corresponding to the specific flake8 run
+          on the format '<branch>_<sha>.txt' - A string.
+
+    Returns
+    ----------
+    string: The full output.
+    """
     return readFile("./logs_compile/{}".format(name))
 
 
 @app.route('/logs_tests/<name>')
 def get_logfile_test(name):
+    """Show full pytest output of a specific run of the tests.
+
+    Parameters
+    ----------
+    name: The name of the log-file corresponding to the specific test run
+          on the format '<branch>_<sha>.txt' - A string.
+
+    Returns
+    ----------
+    string: The full output.
+    """
     return readFile("./logs_tests/{}".format(name))
 
 
