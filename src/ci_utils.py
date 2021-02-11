@@ -1,6 +1,8 @@
 import subprocess
-from subprocess import check_output
 import os
+import sys
+from datetime import datetime
+from status_response import Status_response, StatusType
 
 
 def parse(data):
@@ -34,3 +36,72 @@ def setup_repo(branch):
         if p.wait() != 0:
             print("Failed!!!")
             break
+
+
+def log_to_file(file, branch, sha, p):
+    """Logs the content of the stdout of a subprocess to a specific log file
+       as well as a timestamp for the logging, and the branch and sha
+       corresponding to the subprocess.
+
+    Parameters
+    ----------
+    file: The path (in relation to the root directory) of the logfile - A string.
+    branch: The name of the branch in which the commit is made - A string.
+    sha: The commit sha of the repo state which the process was run in - A string.
+    p: The completed subprocess which stdout should be logged - A CompletedProcess object.
+
+    Returns
+    ----------
+    None
+    """
+    with open("../" + file, 'a+') as log:
+        # print meta data about test run to the log
+        log.write("\n{date} :: {branch} -- {sha}:\n".format(date=datetime.now(), branch=branch, sha=sha))
+        # print the test output to the log
+        log.write(p.stdout.decode('utf-8'))
+
+
+def run_compile(branch, sha):
+    """From the `git_repo` directory, run the linter tool flake8 on all the
+       files in the directory, ignoring E501 (too long lines). The flake8
+       output is logged to a file with the path 'logs_compile/<branch>_<sha>.txt',
+       where <branch> and <sha> are substituted to the `branch` and `sha`
+       arguments.
+
+    Parameters
+    ----------
+    branch: The name of the branch in which the commit is made - A string.
+    sha: The commit sha of the repo state that should be analysed - A string.
+
+    Returns
+    ----------
+    Status_response: A Status_response instance representing the result of
+                     the analysis.
+    """
+    sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
+    file = "logs_compile/{}_{}.txt".format(branch, sha)
+    log_to_file(file, branch, sha, sub_proc)
+    return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
+
+
+def run_test(branch, sha):
+    """Run all the tests within the current directory with pytest. The tests
+       must be written in files with names on the form 'test*.py' or '*test.py'.
+       The pytest output is logged to a file with the path
+       'logs_tests/<branch>_<sha>.txt', where <branch> and <sha> are
+       substituted to the `branch` and `sha` arguments.
+
+    Parameters
+    ----------
+    branch: The name of the branch in which the commit is made - A string.
+    sha: The commit sha of the repo state that should be tested - A string.
+
+    Returns
+    ----------
+    Status_response: A Status_response instance representing the result of
+                     the test.
+    """
+    sub_proc = subprocess.run(["python", "-m", "pytest"], capture_output=True)
+    file = "logs_tests/{}_{}.txt".format(branch, sha)
+    log_to_file(file, branch, sha, sub_proc)
+    return Status_response(sub_proc.returncode, StatusType.test, sha, file)

@@ -6,6 +6,54 @@ from status_response import Status_response, StatusType
 app = Flask(__name__)
 
 
+def readFile(name):
+    """Get the content of a (non-binary) file.
+
+    Parameters
+    ----------
+    name: A path to the file that should be read - A string.
+
+    Returns
+    ----------
+    string: The content of the file.
+    """
+    with open(name) as f:
+        file_content = f.read()
+    return file_content
+
+
+@app.route('/logs_compile/<name>')
+def get_logfile_compile(name):
+    """Show full flake8 output of a specific flake8 run.
+
+    Parameters
+    ----------
+    name: The name of the log-file corresponding to the specific flake8 run
+          on the format '<branch>_<sha>.txt' - A string.
+
+    Returns
+    ----------
+    string: The full output.
+    """
+    return readFile("./logs_compile/{}".format(name))
+
+
+@app.route('/logs_tests/<name>')
+def get_logfile_test(name):
+    """Show full pytest output of a specific run of the tests.
+
+    Parameters
+    ----------
+    name: The name of the log-file corresponding to the specific test run
+          on the format '<branch>_<sha>.txt' - A string.
+
+    Returns
+    ----------
+    string: The full output.
+    """
+    return readFile("./logs_tests/{}".format(name))
+
+
 @app.route('/hook', methods=['POST'])
 def webhook():
     """Default route for GitHub webhook. Gets called at every push to any branch."""
@@ -13,12 +61,25 @@ def webhook():
         data = ci_utils.parse(request.json)
         if 'error' in data:
             abort(400)
+
         # Set commit compile status flag to pending
         Status_response(10, StatusType.compile, data['head_commit'], '').send_status()
+
         # Set commit test status flag to pending
         Status_response(10, StatusType.test, data['head_commit'], '').send_status()
+
         # Setup branch repo to git_repo which is gitignored
         ci_utils.setup_repo(data['branch'])
+
+        # Run compile
+        response = ci_utils.run_compile(data['branch'], data['head_commit'])
+        response.send_status()
+
+        # Run tests
+        response = ci_utils.run_test(data['branch'], data['head_commit'])
+        response.send_status()
+
+        ci_utils.change_dir("../")
         return 'success', 200
     else:
         abort(400)
