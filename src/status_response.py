@@ -4,7 +4,7 @@ import requests
 from env import TOKEN
 
 
-BASE_URL = "http://9d1efe2589ad.ngrok.io/"
+BASE_URL = "http://b134632ff51e.ngrok.io/"
 
 
 class Status(Enum):
