@@ -6,9 +6,9 @@
 
 #### Parameters
 
-| Name 	        | In 	    | Description 	                        |
-|---	        |---	    |---	                                |
-| SHA 	        | path 	    | The commit SHA. 	|
+| Name 	       | In 	    | Description 	                        |
+|---	          |---	    |---	                                |
+| SHA 	       | path 	    | The commit SHA. 	|
 | TOKEN         | header  	| Authorization token. |
 | state         | body  	| The status, either: error, failure, pending, or success. |
 | context       | body  	| A short header/id. This will be overrittwen if used several times for a commit. |
@@ -45,11 +45,6 @@ response = setCommitStatus(
     description='LGTM',
     url='http://d5735d731f01.ngrok.io'
 )
-
-print()
-print(response.status_code)
-print()
-print(response.text)
 ```
 
 #### Default response
