@@ -27,14 +27,22 @@ def change_dir(dir):
     os.chdir(dir)
 
 
+def create_env_file():
+    """Creates an environment file with a TOKEN constant."""
+    f = open('src/env.py', 'w')
+    f.write('TOKEN = \'\'\n')
+    f.close()
+
+
 def setup_repo(branch):
     """clone the branch repo"""
-    change_dir("./git_repo")
-    cmd = [["git", "fetch"], ["git", "checkout", branch], ["git", "pull"]]
+    change_dir('./git_repo')
+    create_env_file()
+    cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
     for c in cmd:
         p = subprocess.Popen(c)
         if p.wait() != 0:
-            print("Failed!!!")
+            print('Failed!!!')
             break
 
 
@@ -101,7 +109,7 @@ def run_test(branch, sha):
     Status_response: A Status_response instance representing the result of
                      the test.
     """
-    sub_proc = subprocess.run(["python", "-m", "pytest"], capture_output=True)
+    sub_proc = subprocess.run(["python3", "-m", "pytest"], capture_output=True)
     file = "logs_tests/{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
     return Status_response(sub_proc.returncode, StatusType.test, sha, file)
