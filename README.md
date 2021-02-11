@@ -1,5 +1,7 @@
 # Assignment 2
 
+## Setup
+
 ## Continuous Integration :earth_americas:
 
 Implementation of a small continuous integration CI server.
