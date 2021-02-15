@@ -2,7 +2,17 @@
 
 ## Continuous Integration :earth_americas:
 
-Implementation of a small continuous integration CI server.
+Implementation of a small continuous integration CI server containing core features of continuous integration. The core CI features of continous integration are the following: 
+
+1. **Compilation**
+The branch that has been changed is compiled by the CI server. The compilation is triggered as webhook. Furthermore, a static syntax check is performed.
+
+2. **Testing**
+The CI server executes automated tests on the branch that has been changed. The testing is triggerd as webhook. 
+
+3. **Notification**
+The CI server uses the notification mechanism of setting a [commit status](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) on the repository, using [REST API](https://docs.github.com/en/rest/reference/repos#statuses).
+
 
 ## Statement of Contributions :thought_balloon:
 
