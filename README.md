@@ -1,6 +1,10 @@
 # Assignment 2 - Continuous Integration :earth_americas:
 
-Implementation of a small continuous integration CI server containing core features of continuous integration. The core CI features of continous integration are the following: 
+Implementation of a small continuous integration CI server containing core features of continuous integration. 
+
+## Features of CI
+
+The core CI features of continous integration are the following: 
 
 1. **Compilation:**
 The branch that has been changed is compiled by the CI server. The compilation is triggered as webhook. Furthermore, a static syntax check is performed.
@@ -26,7 +30,7 @@ The architecture of this project follows the pattern in the following figure.
 
 ### GitHub
 
-GitHub is used in for the repository. In this project it is used for applying [feature 2](#assignment-2---continuous-integration-:earth_amrericas:), the notification feature, of continuous integration.
+GitHub is used in for the repository. In this project it is used for applying [feature 2](#Features-of-CI), the notification feature, of continuous integration.
 
 ## Statement of Contributions :thought_balloon:
 
