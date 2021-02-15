@@ -1,6 +1,4 @@
-# Assignment 2
-
-## Continuous Integration :earth_americas:
+# Assignment 2 - Continuous Integration :earth_americas:
 
 Implementation of a small continuous integration CI server containing core features of continuous integration. The core CI features of continous integration are the following: 
 
