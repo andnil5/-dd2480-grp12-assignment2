@@ -30,7 +30,19 @@ The architecture of this project follows the pattern in the following figure.
 
 ### GitHub
 
-GitHub is used in for the repository. In this project it is used for applying [feature 2](#Features-of-CI), the notification feature, of continuous integration.
+**GitHub** is used for the repository. In this project it is used for applying [feature 2](#Features-of-CI), the notification feature, of continuous integration.
+
+### ngrok
+
+[**ngrok**](https://ngrok.com/docs) is used to make the local web server visible externally, on the internet. Furthermore, it is used in order to catch all HTTP traffic going via the tunnel. 
+
+### Build and test
+
+Whenever something is pushed to a particular branch [feature 1 and feature 2](#Features-of-CI), compilation and testing, are conducted. Compilation uses the linter [flake8](https://flake8.pycqa.org/en/latest/), and the tests are constructed using mockups. 
+
+## Install :computer:
+
+## Usage :books:
 
 ## Statement of Contributions :thought_balloon:
 
@@ -39,3 +51,5 @@ GitHub is used in for the repository. In this project it is used for applying [f
 **Anders Nilsson**: define REST API - Github - server<br/>
 **Omid Hazara**: getting and building repo in Python<br/>
 **Jennifer Lindberg**: deployment
+
+## Further Documentation :open_file_folder:
