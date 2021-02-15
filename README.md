@@ -20,7 +20,9 @@ This is a group assignment, in the course *Software Engineering Fundamentals* at
 
 ## Architecture
 
-![Architecture](architecture.PNG)
+The architecture of this project follows the pattern in the following figure.
+
+[![](architecture.PNG)](#)
 
 ## Statement of Contributions :thought_balloon:
 
