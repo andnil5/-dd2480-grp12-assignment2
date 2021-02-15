@@ -12,17 +12,21 @@ The CI server executes automated tests on the branch that has been changed. The 
 The CI server uses the notification mechanism of setting a [commit status](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) on the repository, using [REST API](https://docs.github.com/en/rest/reference/repos#statuses).
 
 4. **Storing history:**
-The CI server stores the history of builds, even when the server restarts. A single URl exists that lists all builds, whilst each and every build also has its own URL containing build information (commit identifier, build date and build logs).
+The CI server stores the history of builds, even when the server restarts. A single URL exists that lists all builds, whilst each and every build also has its own URL containing build information (commit identifier, build date and build logs).
 
 ## Motivation :man_student: :woman_student:
 
 This is a group assignment, in the course *Software Engineering Fundamentals* at KTH, with the purpose of teaching continuous integration. The assignment is conducted in spring 2021.  
 
-## Architecture
+## Architecture :bricks:
 
 The architecture of this project follows the pattern in the following figure.
 
-[![](architecture.PNG)](#)
+[![](architecture.PNG)](#Architecture)
+
+### GitHub
+
+GitHub is used in for the repository. In this project it is used for applying [feature 2](#assignment-2---continuous-integration-:earth_amrericas:), the notification feature, of continuous integration.
 
 ## Statement of Contributions :thought_balloon:
 
