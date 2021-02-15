@@ -16,12 +16,8 @@ The CI server stores the history of builds, even when the server restarts. A sin
 
 ## Statement of Contributions :thought_balloon:
 
-**Maja Tennander**: handling response
-
-**Carl Johan Freme**: documentation, setup simple Flask server
-
-**Anders Nilsson**: define REST API - Github - server
-
-**Omid Hazara**: getting and building repo in Python
-
+**Maja Tennander**: handling response<br/>
+**Carl Johan Freme**: documentation, setup simple Flask server<br/>
+**Anders Nilsson**: define REST API - Github - server<br/>
+**Omid Hazara**: getting and building repo in Python<br/>
 **Jennifer Lindberg**: deployment
