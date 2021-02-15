@@ -14,6 +14,10 @@ The CI server uses the notification mechanism of setting a [commit status](https
 4. **Storing history:**
 The CI server stores the history of builds, even when the server restarts. A single URl exists that lists all builds, whilst each and every build also has its own URL containing build information (commit identifier, build date and build logs).
 
+## Motivation :man_student: :woman_student:
+
+This is a group assignment, in the course *Software Engineering Fundamentals* at KTH, with the purpose of teaching continuous integration. The assignment is conducted in spring 2021.  
+
 ## Statement of Contributions :thought_balloon:
 
 **Maja Tennander**: handling response<br/>
