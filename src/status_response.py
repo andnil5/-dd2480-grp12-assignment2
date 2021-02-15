@@ -8,6 +8,9 @@ BASE_URL = "http://b134632ff51e.ngrok.io/"
 
 
 class Status(Enum):
+    """An enumeration representing the possible commit states defined by
+       the GitHub REST API.
+    """
     success = "success"
     pending = "pending"
     error = "error"
@@ -15,13 +18,42 @@ class Status(Enum):
 
 
 class StatusType(Enum):
+    """An enumeration representing the different commit contexts used by the
+       CI server.
+    """
     compile = "compile"
     test = "test"
 
 
 class Status_response:
+    """A class that generates POST requests for commit status updates via the
+       GitHub REST API from partial results of different steps of the CI server
+       workflow.
+    """
 
     def __init__(self, return_code, context_type, sha, file):
+        """Generates the POST request data, without sending the request.
+
+        Parameters
+        ----------
+        return_code : int
+            The return code of the subprocess that was run as part of the
+            CI server workflow step that should cause the commit update. A
+            `return_code` of value 10 indicates that the step is started without
+            being finished (this will set the commit state to pending).
+        context_type : StatusType member
+            A enum member of the `StatusType` enumeration representing which
+            context the status update concerns.
+        sha : str
+            The sha of the commit that should have its status updated.
+        file : str
+            The path to the log file corresponding to the output of the
+            subprocess. If no such file exist, set this value to the empty string.
+
+        Returns
+        ----------
+        None.
+        """
         if context_type == StatusType.test:
             self.context = 'Test: '
             self.state, self.description = self.__generate_test_response(return_code)
@@ -33,6 +65,10 @@ class Status_response:
         self.sha = sha
 
     def __generate_compile_response(self, return_code):
+        """Convert return codes from flake8 to fitting commit states and
+           descriptions. If `return_code` has value 10, the state will be set
+           to pending.
+        """
         if return_code == 0:
             return Status.success, "All files passed successfully"
         elif return_code == 1:
@@ -43,6 +79,10 @@ class Status_response:
             return Status.error, "Something went wrong"
 
     def __generate_test_response(self, return_code):
+        """Convert return codes from pytest to fitting commit states and
+           descriptions. If `return_code` has value 10, the state will be set
+           to pending.
+        """
         if return_code == 0:
             return Status.success, "All tests were collected and passed successfully"
         elif return_code == 1:
@@ -61,6 +101,14 @@ class Status_response:
             return Status.error, "Something went wrong"
 
     def send_status(self):
+        """Sends the generated POST request to the GitHub REST API.
+
+        Returns
+        ----------
+        requests.Response
+            A `requests.Response` instance representing the response from the
+            GitHub REST API.
+        """
         headers = {
             'Accept': 'application/vnd.github.v3+json',
             'Authorization': 'bearer ' + TOKEN
