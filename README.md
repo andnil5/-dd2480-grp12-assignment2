@@ -18,6 +18,10 @@ The CI server stores the history of builds, even when the server restarts. A sin
 
 This is a group assignment, in the course *Software Engineering Fundamentals* at KTH, with the purpose of teaching continuous integration. The assignment is conducted in spring 2021.  
 
+## Architecture
+
+![Architecture](architecture.PNG)
+
 ## Statement of Contributions :thought_balloon:
 
 **Maja Tennander**: handling response<br/>
