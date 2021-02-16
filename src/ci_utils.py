@@ -28,10 +28,12 @@ def change_dir(dir):
 
 
 def create_env_file():
-    """Creates an environment file with a TOKEN constant."""
+    """Creates an environment file with a BASE_URL and a TOKEN constant."""
     f = open('src/env.py', 'w')
+    f.write('BASE_URL = \'\'\n')
     f.write('TOKEN = \'\'\n')
     f.close()
+
 
 
 def setup_repo(branch):
