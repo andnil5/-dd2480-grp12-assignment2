@@ -34,22 +34,22 @@ def test_change_dir():
     assert cwd_stringified == 'dd2480-grp12-assignment2/git_repo'
     os.chdir('./')
 
-def test_create_env_file():
-    """Test that the create_env_file() function can do write to the env file"""
-    file_name = '/src/envv.txt'
-    create_env_file(file_name)
-    # os.chdir('./')
-
-def test_setup_repo():
-    """Test that the setup_repo(branch) makes the branch clone"""
-    data = {
-        'ref': 'refs/heads/test',
-        'head_commit': {
-            'id': '3f28d0dd76b9b1bdd5db5224a1012e5738d2b7b5',
-        }
-    }
-    res = parse(data)
-    # print(res['branch'])
-    assert res['branch'] == 'test'
-    setup_repo(res['branch'])
-    # change_dir('./git_repo')
+# def test_create_env_file():
+#     """Test that the create_env_file() function can do write to the env file"""
+#     file_name = '/src/envv.txt'
+#     create_env_file(file_name)
+#     # os.chdir('./')
+#
+# def test_setup_repo():
+#     """Test that the setup_repo(branch) makes the branch clone"""
+#     data = {
+#         'ref': 'refs/heads/test',
+#         'head_commit': {
+#             'id': '3f28d0dd76b9b1bdd5db5224a1012e5738d2b7b5',
+#         }
+#     }
+#     res = parse(data)
+#     # print(res['branch'])
+#     assert res['branch'] == 'test'
+#     setup_repo(res['branch'])
+#     # change_dir('./git_repo')
