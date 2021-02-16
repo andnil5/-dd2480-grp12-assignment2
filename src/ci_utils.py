@@ -35,7 +35,6 @@ def create_env_file():
     f.close()
 
 
-
 def setup_repo(branch):
     """clone the branch repo"""
     change_dir('./git_repo')
