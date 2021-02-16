@@ -72,7 +72,7 @@ class Status_response:
             'target_url': self.url
         }
         return requests.post(
-            'https://api.github.com/repos/andnil5/-dd2480-grp12-assignment2/statuses/{}'.format(self.sha),
+            'https://api.github.com/repos/andnil5/dd2480-grp12-assignment2/statuses/{}'.format(self.sha),
             headers=headers,
             data=json.dumps(payload)
         )
