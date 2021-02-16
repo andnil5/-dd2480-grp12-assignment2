@@ -6,7 +6,7 @@ from status_response import Status_response, StatusType
 app = Flask(__name__)
 
 
-def readFile(name):
+def read_file(name):
     """Get the content of a (non-binary) file.
 
     Parameters
@@ -17,6 +17,9 @@ def readFile(name):
     ----------
     string: The content of the file.
     """
+    if not name.endswith('.py'):
+        print('Error, file format not supported, origin: read_file()')
+
     with open(name) as f:
         file_content = f.read()
     return file_content
@@ -35,7 +38,7 @@ def get_logfile_compile(name):
     ----------
     string: The full output.
     """
-    return readFile("./logs_compile/{}".format(name))
+    return read_file("./logs_compile/{}".format(name))
 
 
 @app.route('/logs_tests/<name>')
@@ -51,7 +54,7 @@ def get_logfile_test(name):
     ----------
     string: The full output.
     """
-    return readFile("./logs_tests/{}".format(name))
+    return read_file("./logs_tests/{}".format(name))
 
 
 @app.route('/hook', methods=['POST'])
@@ -69,7 +72,7 @@ def webhook():
         Status_response(10, StatusType.test, data['head_commit'], '').send_status()
 
         # Setup branch repo to git_repo which is gitignored
-        ci_utils.setup_repo(data['branch'])
+        ci_utils.clone_git_repo(data['branch'])
 
         # Run compile
         response = ci_utils.run_compile(data['branch'], data['head_commit'])

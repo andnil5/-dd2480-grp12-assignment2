@@ -3,7 +3,8 @@ import os
 import sys
 from datetime import datetime
 from status_response import Status_response, StatusType
-
+import git
+import shutil
 
 def parse(data):
     """Parse the json webhook input from github."""
@@ -40,46 +41,35 @@ def create_env_file():
     try:
         with open(file_path, 'w+') as f:
             f.write('TOKEN = \'\'\n')
+            f.write('BASE_URL = \'\'\n')
             f.close()
     except:
         print('Error! environment file could not be created')
 
 
-# def change_dir(dir):
-#     """Changes the current working directory of the OS.
-#     Parameters
-#     ----------
-#     dir : str
-#         The path (relative or absolute) to the new directory.
-#     Returns
-#     ----------
-#     None.
-#     """
-#     os.chdir(dir)
-#
-#
-# def create_env_file():
-#     """Creates an environment file with the path ``src/env.py`` defining the
-#        constant `TOKEN` as an empty string.
-#     Returns
-#     ----------
-#     None.
-#     """
-#     f = open('src/env.py', 'w')
-#     f.write('TOKEN = \'\'\n')
-#     f.close()
+def clone_git_repo(branch):
+    if os.path.isdir('./branch_repo'):
+        shutil.rmtree('./branch_repo')
+    os.mkdir('./branch_repo')
+    repo = git.Repo.clone_from('https://github.com/andnil5/dd2480-grp12-assignment2.git', './branch_repo', progress=None)
+    gt = repo.git
+    gt.fetch()
+    gt.checkout(branch)
+    gt.pull()
+    # print gt.status()
 
-def setup_repo(branch):
-    """clone the branch repo"""
-    change_dir('./git_repo')
-    print(os.getcwd())
-    create_env_file()
-    cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
-    for c in cmd:
-        p = subprocess.Popen(c)
-        if p.wait() != 0:
-            print('Failed!!!')
-            break
+
+# def setup_repo(branch):
+#     """clone the branch repo"""
+#     change_dir('./git_repo')
+#     print(os.getcwd())
+#     create_env_file()
+#     cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
+#     for c in cmd:
+#         p = subprocess.Popen(c)
+#         if p.wait() != 0:
+#             print('Failed!!!')
+#             break
 
 
 def log_to_file(file, branch, sha, p):
@@ -98,7 +88,7 @@ def log_to_file(file, branch, sha, p):
     ----------
     None
     """
-    with open("../" + file, 'a+') as log:
+    with open(file, 'a+') as log:
         # print meta data about test run to the log
         log.write("\n{date} :: {branch} -- {sha}:\n".format(date=datetime.now(), branch=branch, sha=sha))
         # print the test output to the log
@@ -122,8 +112,8 @@ def run_compile(branch, sha):
     Status_response: A Status_response instance representing the result of
                      the analysis.
     """
-    sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
-    file = "logs_compile/{}_{}.txt".format(branch, sha)
+    sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../branch_repo/'], capture_output=True)
+    file = "../logs_compile/{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
     return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
 
@@ -146,6 +136,6 @@ def run_test(branch, sha):
                      the test.
     """
     sub_proc = subprocess.run(["python3", "-m", "pytest"], capture_output=True)
-    file = "logs_tests/{}_{}.txt".format(branch, sha)
+    file = "../logs_tests/{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
     return Status_response(sub_proc.returncode, StatusType.test, sha, file)
