@@ -22,27 +22,49 @@ def parse(data):
     return res
 
 
+# def change_dir(dir):
+#     """helper function to change dir"""
+#
+#     # checking whether folder/directory exists, if not then make one
+#     if not os.path.exists(dir):
+#         os.mkdir(dir)
+#     os.chdir(dir)
+#
+# def create_env_file(file):
+#     """Creates an environment file with a TOKEN constant."""
+#     # file = 'src/env.py'
+#     cwd = os.getcwd()
+#     file_path = cwd + file
+#     try:
+#         if not os.path.exists(file_path):
+#             with open(file_path, 'w') as f:
+#                 f.write('TOKEN = \'\'\n')
+#                 f.close()
+#     except:
+#         print('Error!')
 def change_dir(dir):
-    """helper function to change dir"""
-
-    # checking whether folder/directory exists, if not then make one
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    """Changes the current working directory of the OS.
+    Parameters
+    ----------
+    dir : str
+        The path (relative or absolute) to the new directory.
+    Returns
+    ----------
+    None.
+    """
     os.chdir(dir)
 
-def create_env_file(file):
-    """Creates an environment file with a TOKEN constant."""
-    # file = 'src/env.py'
-    cwd = os.getcwd()
-    file_path = cwd + file
-    try:
-        if not os.path.exists(file_path):
-            with open(file_path, 'w') as f:
-                f.write('TOKEN = \'\'\n')
-                f.close()
-    except:
-        print('Error!')
 
+def create_env_file():
+    """Creates an environment file with the path ``src/env.py`` defining the
+       constant `TOKEN` as an empty string.
+    Returns
+    ----------
+    None.
+    """
+    f = open('src/env.py', 'w')
+    f.write('TOKEN = \'\'\n')
+    f.close()
 def setup_repo(branch):
     """clone the branch repo"""
     change_dir('./git_repo')
