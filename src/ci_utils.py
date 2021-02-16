@@ -33,9 +33,10 @@ def change_dir(dir):
 
 def create_env_file():
     """Creates an environment file with a TOKEN constant."""
-    file = '/src/env.py'
-    cwd = os.getcwd()
-    file_path = cwd + file
+    file_path = '/src/env.py'
+    # cwd = os.getcwd()
+    # file_path = cwd + file
+    # print("this is the env file dir {}".format(file_path))
     try:
         with open(file_path, 'w+') as f:
             f.write('TOKEN = \'\'\n')
