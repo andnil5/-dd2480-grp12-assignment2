@@ -74,7 +74,7 @@ Run the following command in order to set the Python path
 ### Run ngrok
 
 **ngrok** is started using the following command
-- `ngrok http local_machine_port_number`
+- `ngrok http local_machine_port_number`<br/>
 This command generates an ngrok "URL" that should be added to `BASE_URL` variable inside the `status_response` file.
 
 ### Push to GitHub
