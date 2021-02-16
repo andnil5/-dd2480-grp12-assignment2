@@ -7,13 +7,13 @@ Implementation of a small continuous integration CI server containing core featu
 The core CI features of continous integration are the following: 
 
 1. **Compilation:**
-The branch that has been changed is compiled by the CI server. The compilation is triggered as webhook. Furthermore, a static syntax check is performed.
+Whenever the GitHub webhook registers a push event to the CI server, the repo state of the head commit of the push will be analysed by the CI server. The “compilation” part of the CI workflow consists of the CI server performing a static syntax check of the pushed code by using the linter tool Flake8. The code passes this step if flake8 finds no errors (ignoring warnings and the E501 error).
 
 2. **Testing:**
-The CI server executes automated tests on the branch that has been changed. The testing is triggerd as webhook. 
+The CI server executes automated tests on the branch that has been changed. The testing is triggerd by a webhook. The tests that are executed are all tests included in the target repository following the naming conventions of pytest tests. 
 
 3. **Notification:**
-The CI server uses the notification mechanism of setting a [commit status](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) on the repository, using [REST API](https://docs.github.com/en/rest/reference/repos#statuses).
+The CI server uses the notification mechanism of setting a [commit status](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) on the repository, using the [GitHub REST API](https://docs.github.com/en/rest/reference/repos#statuses).
 
 4. **Storing history:**
 The CI server stores the history of builds, even when the server restarts. A single URL exists that lists all builds, whilst each and every build also has its own URL containing build information (commit identifier, build date and build logs).
@@ -30,7 +30,7 @@ The architecture of this project follows the pattern in the following figure.
 
 ### GitHub
 
-**GitHub** is used for the repository. In this project it is used for applying [feature 2](#Features-of-CI), the notification feature, of continuous integration.
+**GitHub** is used for the repository. In this project it is used for applying [feature 3](#Features-of-CI), the notification feature, of continuous integration.
 
 ### ngrok
 
@@ -42,7 +42,7 @@ Flask is used as Python web framework.
 
 ### Build and test
 
-Whenever something is pushed to a particular branch [feature 1 and feature 2](#Features-of-CI), compilation and testing, are conducted. Compilation uses the linter [flake8](https://flake8.pycqa.org/en/latest/), and the tests are constructed using mockups. 
+Whenever something is pushed to a particular branch [feature 1 and feature 2](#Features-of-CI), compilation and testing, are conducted. Compilation uses the linter [flake8](https://flake8.pycqa.org/en/latest/), and the tests are constructed using pytest. 
 
 ### Logging
 
@@ -50,21 +50,26 @@ Whenever something is pushed to a particular branch [feature 3](#Features-of-CI)
 
 ## Installation :computer:
 
-Run the following command in order to install all **dependencies** needed to run this project
+Execute the following command in order to install all **dependencies** needed to run this project
 - `pip install -r /path/to/requirements.txt`
 
 ## Usage :books:
 
 ### Set PYTHONPATH
 
-Run the following command in order to set the Python path
+Execute the following command in the root directory of the project in order to set the Python path
 - `export PYTHONPATH=src`
+
+If the `export` command does not work in *Windows* execute the following command instead
+- `set PYTHONPATH=src`
 
 ### Run flake8
 
 **flake8** is automated to run when a push is conducted, but it can also be run directly in the project folder using one of the following commands 
 - Linting a specific file `flake8 path/to/file.py`
 - Linting the whole project `flake8 path/to/project_folder/`
+
+Furthermore, the CI server runs flake8 with the option `--ignore=E501` to ignore `Line too long` errors that occur when lines are longer than 79 characters. 
 
 ### Run pytest
 
@@ -76,17 +81,18 @@ Run the following command in order to set the Python path
 **ngrok** is started using the following command
 - `ngrok http local_machine_port_number`
 
-This command generates an ngrok "URL" that should be added to `BASE_URL` variable inside the `status_response` file.
+This command generates an ngrok URL that should be added to the `BASE_URL` variable inside the `status_response` file. The URL must be connected to a webhook for push events in the targeted repository. 
 
 ### Push to GitHub
 
 To see the status of your push follow the following steps
 1. Run ngrok
-2. Make a change to a file in the repository
-3. `git add .`
-4. `git commit -m "some_message"`
-5. `git push`
-6. Check the repository on GitHub and view the flag to see the status of the push
+2. Run `python src/server.py` from the root directory to start the server
+3. Make a change to a file in the repository
+4. `git add .`
+5. `git commit -m "some_message"`
+6. `git push`
+7. Check the repository on GitHub and view the flag to see the status of the push
 
 ## Statement of Contributions :thought_balloon:
 
@@ -104,4 +110,4 @@ Work was distrubuted intelligently between then the 5 team members; the tasks we
 
 ## Further Documentation :open_file_folder:
 
-Further documentation can be found in the `api.md` file in the `docs` folder. Moreover, further code documentation can be found [here](https://majate.github.io/testing/src/index.html).  
+Further documentation can be found in the `api.md` file in the `docs` folder. Moreover, further code documentation can be found [here](https://andnil5.github.io/dd2480-grp12-assignment2/src/).  
