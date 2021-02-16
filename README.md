@@ -75,12 +75,11 @@ Run the following command in order to set the Python path
 
 **ngrok** is started using the following command
 - `ngrok http local_machine_port_number`
-<br/>
 This command generates an ngrok "URL" that should be added to `BASE_URL` variable inside the `status_response` file.
 
 ### Push to GitHub
 
-To see the changes in commit-message follow these steps
+To see the status of your push follow the following steps
 1. Run ngrok
 2. Make a change to a file in the repository
 3. `git add .`
