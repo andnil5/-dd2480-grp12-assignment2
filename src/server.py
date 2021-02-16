@@ -6,20 +6,24 @@ from status_response import Status_response, StatusType
 app = Flask(__name__)
 
 
-def readFile(name):
-    """Get the content of a (non-binary) file.
+def get_logfile(path):
+    """Gets the content of a (non-binary) file.
 
     Parameters
     ----------
-    name: A path to the file that should be read - A string.
+    path: A path to the file that should be read - A string.
 
     Returns
     ----------
-    string: The content of the file.
+    string: The content of the file. Returns a 404 response if file is not found.
     """
-    with open(name) as f:
+    try:
+        f = open(path)
         file_content = f.read()
-    return file_content
+        f.close()
+        return file_content
+    except FileNotFoundError:
+        abort(404)
 
 
 @app.route('/logs_compile/<name>')
@@ -35,7 +39,7 @@ def get_logfile_compile(name):
     ----------
     string: The full output.
     """
-    return readFile("./logs_compile/{}".format(name))
+    return get_logfile("./logs_compile/{}".format(name))
 
 
 @app.route('/logs_tests/<name>')
@@ -51,7 +55,7 @@ def get_logfile_test(name):
     ----------
     string: The full output.
     """
-    return readFile("./logs_tests/{}".format(name))
+    return get_logfile("./logs_tests/{}".format(name))
 
 
 @app.route('/hook', methods=['POST'])
