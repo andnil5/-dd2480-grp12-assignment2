@@ -37,11 +37,11 @@ def create_env_file():
     cwd = os.getcwd()
     file_path = cwd + file
     try:
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w+') as f:
             f.write('TOKEN = \'\'\n')
             f.close()
     except:
-        print('Error!')
+        print('Error! environment file could not be created')
 
 
 # def change_dir(dir):
