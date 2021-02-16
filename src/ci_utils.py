@@ -31,16 +31,15 @@ def change_dir(dir):
     os.chdir(dir)
 
 
-def create_env_file(file):
+def create_env_file():
     """Creates an environment file with a TOKEN constant."""
-    # file = 'src/env.py'
+    file = '/src/env.py'
     cwd = os.getcwd()
     file_path = cwd + file
     try:
-        if not os.path.exists(file_path):
-            with open(file_path, 'w') as f:
-                f.write('TOKEN = \'\'\n')
-                f.close()
+        with open(file_path, 'w') as f:
+            f.write('TOKEN = \'\'\n')
+            f.close()
     except:
         print('Error!')
 
@@ -72,7 +71,7 @@ def create_env_file(file):
 def setup_repo(branch):
     """clone the branch repo"""
     change_dir('./git_repo')
-    create_env_file('/src/env.py')
+    create_env_file()
     cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
     for c in cmd:
         p = subprocess.Popen(c)
