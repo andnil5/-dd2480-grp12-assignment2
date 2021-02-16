@@ -24,20 +24,29 @@ def parse(data):
 
 def change_dir(dir):
     """helper function to change dir"""
+
+    # checking whether folder/directory exists, if not then make one
+    if not os.path.exists(dir):
+        os.mkdir(dir)
     os.chdir(dir)
 
-
-def create_env_file():
+def create_env_file(file):
     """Creates an environment file with a TOKEN constant."""
-    f = open('src/env.py', 'w')
-    f.write('TOKEN = \'\'\n')
-    f.close()
-
+    # file = 'src/env.py'
+    cwd = os.getcwd()
+    file_path = cwd + file
+    try:
+        if not os.path.exists(file_path):
+            with open(file_path, 'w') as f:
+                f.write('TOKEN = \'\'\n')
+                f.close()
+    except:
+        print('Error!')
 
 def setup_repo(branch):
     """clone the branch repo"""
     change_dir('./git_repo')
-    create_env_file()
+    create_env_file('/src/env.py')
     cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
     for c in cmd:
         p = subprocess.Popen(c)
