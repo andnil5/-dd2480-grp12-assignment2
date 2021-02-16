@@ -71,6 +71,7 @@ def create_env_file():
 def setup_repo(branch):
     """clone the branch repo"""
     change_dir('./git_repo')
+    print(os.getcwd())
     create_env_file()
     cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
     for c in cmd:
