@@ -138,7 +138,8 @@ def run_compile(branch, sha):
         A `src.status_response.Status_response` instance representing the
         result of the analysis.
     """
-    sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
+    sub_proc = subprocess.run([sys.executable, '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
+    #sub_proc = subprocess.run(['python{}'.format(sys.version[:3]), '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
     file = "logs_compile/{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
     return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
