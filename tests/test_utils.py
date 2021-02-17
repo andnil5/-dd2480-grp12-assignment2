@@ -4,4 +4,4 @@ from pytest import ExitCode
 def test_parse():
     assert 1==1
     assert 2==2
-    assert 4==4
+    assert 8==8
