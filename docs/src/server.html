@@ -22,125 +22,6 @@
 <h1 class="title">Module <code>src.server</code></h1>
 </header>
 <section id="section-intro">
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">from flask import Flask, request, abort
-import ci_utils
-from status_response import Status_response, StatusType
-
-
-app = Flask(__name__)
-
-
-def readFile(name):
-    &#34;&#34;&#34;Get the content of a (non-binary) file.
-
-    Parameters
-    ----------
-    name : str
-        A path to the file that should be read.
-
-    Returns
-    ----------
-    str
-        The content of the file.
-    &#34;&#34;&#34;
-    with open(name) as f:
-        file_content = f.read()
-    return file_content
-
-
-@app.route(&#39;/logs_compile/&lt;name&gt;&#39;)
-def get_logfile_compile(name):
-    &#34;&#34;&#34;A view function handling GET requests to the ``/logs_compile/&lt;name&gt;``
-       endpoint. Shows full flake8 output of a specific flake8 run.
-
-    Parameters
-    ----------
-    name : str
-        The name of the log file corresponding to the specific flake8 run
-        on the format ``&lt;branch&gt;_&lt;sha&gt;.txt``.
-
-    Returns
-    ----------
-    200 - OK
-        Response with payload of media type *text/html* including the plain text
-        output of the specified flake8 run.
-    500 -  Internal Server Error
-        If `name` does not correspond to the log file of a specific flake8 run.
-    &#34;&#34;&#34;
-    return readFile(&#34;./logs_compile/{}&#34;.format(name))
-
-
-@app.route(&#39;/logs_tests/&lt;name&gt;&#39;)
-def get_logfile_test(name):
-    &#34;&#34;&#34;A view function handling GET requests to the ``/logs_tests/&lt;name&gt;``
-       endpoint. Shows full pytest output of a specific run of the tests.
-
-    Parameters
-    ----------
-    name : str
-        The name of the log-file corresponding to the specific test run
-        on the format ``&lt;branch&gt;_&lt;sha&gt;.txt``.
-
-    Returns
-    ----------
-    200 - OK
-        Response with payload of media type *text/html* including the plain text
-        output of the specified pytest run.
-    500 - Internal Server Error
-        If `name` does not correspond to the log file of a specific pytest run.
-    &#34;&#34;&#34;
-    return readFile(&#34;./logs_tests/{}&#34;.format(name))
-
-
-@app.route(&#39;/hook&#39;, methods=[&#39;POST&#39;])
-def webhook():
-    &#34;&#34;&#34;A view function handling POST requests to the ``/hook`` endpoint. If the
-       request body is on the format of a GitHub push event (as defined by the
-       GitHub REST API), the CI server will be triggered to check the push.
-
-    Returns
-    ----------
-    200 - OK
-        If the CI server runs successfully. The response will include a
-        payload of media type *text/html* with the content &#34;success&#34;.
-    400 - Bad Request
-        If the request body is not on the format of a GitHub push event.
-    &#34;&#34;&#34;
-    if request.headers[&#39;Content-Type&#39;] == &#39;application/json&#39;:
-        data = ci_utils.parse(request.json)
-        if &#39;error&#39; in data:
-            abort(400)
-
-        # Set commit compile status flag to pending
-        Status_response(10, StatusType.compile, data[&#39;head_commit&#39;], &#39;&#39;).send_status()
-
-        # Set commit test status flag to pending
-        Status_response(10, StatusType.test, data[&#39;head_commit&#39;], &#39;&#39;).send_status()
-
-        # Setup branch repo to git_repo which is gitignored
-        ci_utils.setup_repo(data[&#39;branch&#39;])
-
-        # Run compile
-        response = ci_utils.run_compile(data[&#39;branch&#39;], data[&#39;head_commit&#39;])
-        response.send_status()
-
-        # Run tests
-        response = ci_utils.run_test(data[&#39;branch&#39;], data[&#39;head_commit&#39;])
-        response.send_status()
-
-        ci_utils.change_dir(&#34;../&#34;)
-        return &#39;success&#39;, 200
-    else:
-        abort(400)
-
-
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True)</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -149,6 +30,25 @@ if __name__ == &#39;__main__&#39;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="src.server.get_logfile"><code class="name flex">
+<span>def <span class="ident">get_logfile</span></span>(<span>path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the content of a (non-binary) file.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>A path to the file that should be read.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The content of the file.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<p>404 - File not found error.
+If <code>path</code> does not correspond to an existing file.</p></div>
+</dd>
 <dt id="src.server.get_logfile_compile"><code class="name flex">
 <span>def <span class="ident">get_logfile_compile</span></span>(<span>name)</span>
 </code></dt>
@@ -166,35 +66,9 @@ on the format <code>&lt;branch&gt;_&lt;sha&gt;.txt</code>.</dd>
 <dt><code>200 - OK</code></dt>
 <dd>Response with payload of media type <em>text/html</em> including the plain text
 output of the specified flake8 run.</dd>
-<dt><code>500 -
-Internal Server Error</code></dt>
+<dt><code>404 - File not found error</code></dt>
 <dd>If <code>name</code> does not correspond to the log file of a specific flake8 run.</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@app.route(&#39;/logs_compile/&lt;name&gt;&#39;)
-def get_logfile_compile(name):
-    &#34;&#34;&#34;A view function handling GET requests to the ``/logs_compile/&lt;name&gt;``
-       endpoint. Shows full flake8 output of a specific flake8 run.
-
-    Parameters
-    ----------
-    name : str
-        The name of the log file corresponding to the specific flake8 run
-        on the format ``&lt;branch&gt;_&lt;sha&gt;.txt``.
-
-    Returns
-    ----------
-    200 - OK
-        Response with payload of media type *text/html* including the plain text
-        output of the specified flake8 run.
-    500 -  Internal Server Error
-        If `name` does not correspond to the log file of a specific flake8 run.
-    &#34;&#34;&#34;
-    return readFile(&#34;./logs_compile/{}&#34;.format(name))</code></pre>
-</details>
 </dd>
 <dt id="src.server.get_logfile_test"><code class="name flex">
 <span>def <span class="ident">get_logfile_test</span></span>(<span>name)</span>
@@ -213,71 +87,9 @@ on the format <code>&lt;branch&gt;_&lt;sha&gt;.txt</code>.</dd>
 <dt><code>200 - OK</code></dt>
 <dd>Response with payload of media type <em>text/html</em> including the plain text
 output of the specified pytest run.</dd>
-<dt><code>500 - Internal Server Error</code></dt>
+<dt><code>404 - File not found error</code></dt>
 <dd>If <code>name</code> does not correspond to the log file of a specific pytest run.</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@app.route(&#39;/logs_tests/&lt;name&gt;&#39;)
-def get_logfile_test(name):
-    &#34;&#34;&#34;A view function handling GET requests to the ``/logs_tests/&lt;name&gt;``
-       endpoint. Shows full pytest output of a specific run of the tests.
-
-    Parameters
-    ----------
-    name : str
-        The name of the log-file corresponding to the specific test run
-        on the format ``&lt;branch&gt;_&lt;sha&gt;.txt``.
-
-    Returns
-    ----------
-    200 - OK
-        Response with payload of media type *text/html* including the plain text
-        output of the specified pytest run.
-    500 - Internal Server Error
-        If `name` does not correspond to the log file of a specific pytest run.
-    &#34;&#34;&#34;
-    return readFile(&#34;./logs_tests/{}&#34;.format(name))</code></pre>
-</details>
-</dd>
-<dt id="src.server.readFile"><code class="name flex">
-<span>def <span class="ident">readFile</span></span>(<span>name)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Get the content of a (non-binary) file.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
-<dd>A path to the file that should be read.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>str</code></dt>
-<dd>The content of the file.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def readFile(name):
-    &#34;&#34;&#34;Get the content of a (non-binary) file.
-
-    Parameters
-    ----------
-    name : str
-        A path to the file that should be read.
-
-    Returns
-    ----------
-    str
-        The content of the file.
-    &#34;&#34;&#34;
-    with open(name) as f:
-        file_content = f.read()
-    return file_content</code></pre>
-</details>
 </dd>
 <dt id="src.server.webhook"><code class="name flex">
 <span>def <span class="ident">webhook</span></span>(<span>)</span>
@@ -294,51 +106,6 @@ payload of media type <em>text/html</em> with the content "success".</dd>
 <dt><code>400 - Bad Request</code></dt>
 <dd>If the request body is not on the format of a GitHub push event.</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@app.route(&#39;/hook&#39;, methods=[&#39;POST&#39;])
-def webhook():
-    &#34;&#34;&#34;A view function handling POST requests to the ``/hook`` endpoint. If the
-       request body is on the format of a GitHub push event (as defined by the
-       GitHub REST API), the CI server will be triggered to check the push.
-
-    Returns
-    ----------
-    200 - OK
-        If the CI server runs successfully. The response will include a
-        payload of media type *text/html* with the content &#34;success&#34;.
-    400 - Bad Request
-        If the request body is not on the format of a GitHub push event.
-    &#34;&#34;&#34;
-    if request.headers[&#39;Content-Type&#39;] == &#39;application/json&#39;:
-        data = ci_utils.parse(request.json)
-        if &#39;error&#39; in data:
-            abort(400)
-
-        # Set commit compile status flag to pending
-        Status_response(10, StatusType.compile, data[&#39;head_commit&#39;], &#39;&#39;).send_status()
-
-        # Set commit test status flag to pending
-        Status_response(10, StatusType.test, data[&#39;head_commit&#39;], &#39;&#39;).send_status()
-
-        # Setup branch repo to git_repo which is gitignored
-        ci_utils.setup_repo(data[&#39;branch&#39;])
-
-        # Run compile
-        response = ci_utils.run_compile(data[&#39;branch&#39;], data[&#39;head_commit&#39;])
-        response.send_status()
-
-        # Run tests
-        response = ci_utils.run_test(data[&#39;branch&#39;], data[&#39;head_commit&#39;])
-        response.send_status()
-
-        ci_utils.change_dir(&#34;../&#34;)
-        return &#39;success&#39;, 200
-    else:
-        abort(400)</code></pre>
-</details>
 </dd>
 </dl>
 </section>
@@ -358,9 +125,9 @@ def webhook():
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="src.server.get_logfile" href="#src.server.get_logfile">get_logfile</a></code></li>
 <li><code><a title="src.server.get_logfile_compile" href="#src.server.get_logfile_compile">get_logfile_compile</a></code></li>
 <li><code><a title="src.server.get_logfile_test" href="#src.server.get_logfile_test">get_logfile_test</a></code></li>
-<li><code><a title="src.server.readFile" href="#src.server.readFile">readFile</a></code></li>
 <li><code><a title="src.server.webhook" href="#src.server.webhook">webhook</a></code></li>
 </ul>
 </li>
