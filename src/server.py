@@ -6,8 +6,8 @@ from status_response import Status_response, StatusType
 app = Flask(__name__)
 
 
-def readFile(name):
-    """Get the content of a (non-binary) file.
+def get_logfile(path):
+    """Gets the content of a (non-binary) file.
 
     Parameters
     ----------
@@ -18,10 +18,19 @@ def readFile(name):
     ----------
     str
         The content of the file.
+
+    Raises
+    ----------
+    404 - File not found error.
+        If `path` does not correspond to an existing file.
     """
-    with open(name) as f:
+    try:
+        f = open(path)
         file_content = f.read()
-    return file_content
+        f.close()
+        return file_content
+    except FileNotFoundError:
+        abort(404)
 
 
 @app.route('/logs_compile/<name>')
@@ -40,10 +49,10 @@ def get_logfile_compile(name):
     200 - OK
         Response with payload of media type *text/html* including the plain text
         output of the specified flake8 run.
-    500 -  Internal Server Error
+    404 - File not found error
         If `name` does not correspond to the log file of a specific flake8 run.
     """
-    return readFile("./logs_compile/{}".format(name))
+    return get_logfile("./logs_compile/{}".format(name))
 
 
 @app.route('/logs_tests/<name>')
@@ -62,10 +71,10 @@ def get_logfile_test(name):
     200 - OK
         Response with payload of media type *text/html* including the plain text
         output of the specified pytest run.
-    500 - Internal Server Error
+    404 - File not found error
         If `name` does not correspond to the log file of a specific pytest run.
     """
-    return readFile("./logs_tests/{}".format(name))
+    return get_logfile("./logs_tests/{}".format(name))
 
 
 @app.route('/hook', methods=['POST'])

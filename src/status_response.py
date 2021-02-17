@@ -1,10 +1,7 @@
 from enum import Enum
 import json
 import requests
-from env import TOKEN
-
-
-BASE_URL = "http://b134632ff51e.ngrok.io/"
+from env import BASE_URL, TOKEN
 
 
 class Status(Enum):
@@ -68,6 +65,14 @@ class Status_response:
         """Convert return codes from flake8 to fitting commit states and
            descriptions. If `return_code` has value 10, the state will be set
            to pending.
+
+        Returns
+        ----------
+        linting status : Status
+            success - All files passed linter successfully.
+            failure - One or more files did not pass linter.
+            pending - Lint analysis started.
+            error - Server error.
         """
         if return_code == 0:
             return Status.success, "All files passed successfully"
@@ -76,12 +81,20 @@ class Status_response:
         elif return_code == 10:
             return Status.pending, ""
         else:
-            return Status.error, "Something went wrong"
+            return Status.error, "Server error"
 
     def __generate_test_response(self, return_code):
         """Convert return codes from pytest to fitting commit states and
            descriptions. If `return_code` has value 10, the state will be set
            to pending.
+
+        Returns
+        ----------
+        test status : Status
+            success - All tests were collected and passed successfully.
+            failure - One or more test failed.
+            pending - Test analysis started.
+            error - Internal server error.
         """
         if return_code == 0:
             return Status.success, "All tests were collected and passed successfully"
@@ -98,7 +111,7 @@ class Status_response:
         elif return_code == 10:
             return Status.pending, ""
         else:
-            return Status.error, "Something went wrong"
+            return Status.error, "Server error"
 
     def send_status(self):
         """Sends the generated POST request to the GitHub REST API.
