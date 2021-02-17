@@ -1,7 +1,8 @@
 from flask import Flask, request, abort
 import ci_utils
 from status_response import Status_response, StatusType
-
+import os
+import git
 
 app = Flask(__name__)
 
@@ -17,8 +18,6 @@ def read_file(name):
     ----------
     string: The content of the file.
     """
-    if not name.endswith('.py'):
-        print('Error, file format not supported, origin: read_file()')
 
     with open(name) as f:
         file_content = f.read()
@@ -82,7 +81,10 @@ def webhook():
         response = ci_utils.run_test(data['branch'], data['head_commit'])
         response.send_status()
 
-        ci_utils.change_dir("../")
+        #remove the branch repo after testing
+        if os.path.isdir('./branch_repo'):
+            git.rmtree('./branch_repo')
+
         return 'success', 200
     else:
         abort(400)
