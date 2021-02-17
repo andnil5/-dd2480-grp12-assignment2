@@ -17,7 +17,12 @@ def get_logfile(path):
     Returns
     ----------
     str
-        The content of the file. Returns a 404 response if file is not found.
+        The content of the file.
+
+    Raises
+    ----------
+    404 - File not found error.
+        If `path` does not correspond to an existing file.
     """
     try:
         f = open(path)
@@ -44,7 +49,7 @@ def get_logfile_compile(name):
     200 - OK
         Response with payload of media type *text/html* including the plain text
         output of the specified flake8 run.
-    500 -  Internal Server Error
+    404 - File not found error
         If `name` does not correspond to the log file of a specific flake8 run.
     """
     return get_logfile("./logs_compile/{}".format(name))
@@ -66,7 +71,7 @@ def get_logfile_test(name):
     200 - OK
         Response with payload of media type *text/html* including the plain text
         output of the specified pytest run.
-    500 - Internal Server Error
+    404 - File not found error
         If `name` does not correspond to the log file of a specific pytest run.
     """
     return get_logfile("./logs_tests/{}".format(name))
