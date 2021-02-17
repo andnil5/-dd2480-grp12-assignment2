@@ -10,7 +10,7 @@ def test_parse_correct_keys():
         }
     }
     res = parse(data)
-    assert res['branch'] == 'ci_server'
+    assert res['branch'] == 'ci_serr'
     assert res['head_commit'] == '3f28d0dd76b9b1bdd5db5224a1012e5738d2b7b5'
 
 
