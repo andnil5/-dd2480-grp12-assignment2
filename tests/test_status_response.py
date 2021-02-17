@@ -37,7 +37,7 @@ def test_generate_compile_response(dummy_Status_response):
 
 
 def test_generate_compile_response_invalid(dummy_Status_response):
-    """Test that `__generate_compile_response` correctly returns an error
+    """Test that `__generate_compile_response` returns an error
        state when an invalid return code is given.
 
     Parameters
@@ -74,7 +74,7 @@ def test_generate_test_response(dummy_Status_response):
 
 
 def test_generate_test_response_invalid(dummy_Status_response):
-    """Test that `__generate_test_response` correctly returns an error
+    """Test that `__generate_test_response` returns an error
        state when an invalid return code is given.
 
     Parameters
