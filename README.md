@@ -16,7 +16,7 @@ The CI server executes automated tests on the branch that has been changed. The 
 The CI server uses the notification mechanism of setting a [commit status](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) on the repository, using the [GitHub REST API](https://docs.github.com/en/rest/reference/repos#statuses).
 
 4. **Storing history:**
-The CI server stores the history of builds, even when the server restarts. A single URL exists that lists all builds, whilst each and every build also has its own URL containing build information (commit identifier, build date and build logs).
+The CI server stores the history of builds, even when the server restarts. Each and every build has its own URL containing build information (commit identifier, build date and build logs).
 
 ## Motivation :man_student: :woman_student:
 
@@ -74,7 +74,7 @@ Furthermore, the CI server runs flake8 with the option `--ignore=E501` to ignore
 ### Run pytest
 
 **pytest** is automated to run when a push is conducted, but it can also be run directly in the project folder using the following command
-- `python -m pytest`
+- `python -m pytest tests`
 
 ### Run ngrok
 
@@ -90,12 +90,12 @@ To see the status of your push follow the following steps
 2. Configure an `env.py` file in the root directory, the CI `env.py` file must contain a *personal* GitHub token and a `BASE_URL` where the server runs
    - `BASE_URL = {BASE_URL}`, string
    - `TOKEN = {TOKEN}`, string
-2. Run `python src/server.py` from the root directory to start the server, **note** that this **has to** be run from the root directory and **not** from the src directory
-3. Make a change to a file in the repository
-4. `git add .`
-5. `git commit -m "some_message"`
-6. `git push`
-7. Check the repository on GitHub and view the flag to see the status of the push
+3. Run `python -m src.server` from the root directory to start the server, **note** that this **has to** be run from the root directory and **not** from the src directory
+4. Make a change to a file in the repository
+5. `git add .`
+6. `git commit -m "some_message"`
+7. `git push`
+8. Check the repository on GitHub and view the flag to see the status of the push
 
 ## Statement of Contributions :thought_balloon:
 
