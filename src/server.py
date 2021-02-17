@@ -7,58 +7,91 @@ import git
 app = Flask(__name__)
 
 
-def read_file(name):
-    """Get the content of a (non-binary) file.
+def get_logfile(path):
+    """Gets the content of a (non-binary) file.
 
     Parameters
     ----------
-    name: A path to the file that should be read - A string.
+    name : str
+        A path to the file that should be read.
 
     Returns
     ----------
-    string: The content of the file.
-    """
+    str
+        The content of the file.
 
-    with open(name) as f:
+    Raises
+    ----------
+    404 - File not found error.
+        If `path` does not correspond to an existing file.
+    """
+    try:
+        f = open(path)
         file_content = f.read()
-    return file_content
+        f.close()
+        return file_content
+    except FileNotFoundError:
+        abort(404)
 
 
 @app.route('/logs_compile/<name>')
 def get_logfile_compile(name):
-    """Show full flake8 output of a specific flake8 run.
+    """A view function handling GET requests to the ``/logs_compile/<name>``
+       endpoint. Shows full flake8 output of a specific flake8 run.
 
     Parameters
     ----------
-    name: The name of the log-file corresponding to the specific flake8 run
-          on the format '<branch>_<sha>.txt' - A string.
+    name : str
+        The name of the log file corresponding to the specific flake8 run
+        on the format ``<branch>_<sha>.txt``.
 
     Returns
     ----------
-    string: The full output.
+    200 - OK
+        Response with payload of media type *text/html* including the plain text
+        output of the specified flake8 run.
+    404 - File not found error
+        If `name` does not correspond to the log file of a specific flake8 run.
     """
-    return read_file("./logs_compile/{}".format(name))
+    return get_logfile("./logs_compile/{}".format(name))
 
 
 @app.route('/logs_tests/<name>')
 def get_logfile_test(name):
-    """Show full pytest output of a specific run of the tests.
+    """A view function handling GET requests to the ``/logs_tests/<name>``
+       endpoint. Shows full pytest output of a specific run of the tests.
 
     Parameters
     ----------
-    name: The name of the log-file corresponding to the specific test run
-          on the format '<branch>_<sha>.txt' - A string.
+    name : str
+        The name of the log-file corresponding to the specific test run
+        on the format ``<branch>_<sha>.txt``.
 
     Returns
     ----------
-    string: The full output.
+    200 - OK
+        Response with payload of media type *text/html* including the plain text
+        output of the specified pytest run.
+    404 - File not found error
+        If `name` does not correspond to the log file of a specific pytest run.
     """
-    return read_file("./logs_tests/{}".format(name))
+    return get_logfile("./logs_tests/{}".format(name))
 
 
 @app.route('/hook', methods=['POST'])
 def webhook():
-    """Default route for GitHub webhook. Gets called at every push to any branch."""
+    """A view function handling POST requests to the ``/hook`` endpoint. If the
+       request body is on the format of a GitHub push event (as defined by the
+       GitHub REST API), the CI server will be triggered to check the push.
+
+    Returns
+    ----------
+    200 - OK
+        If the CI server runs successfully. The response will include a
+        payload of media type *text/html* with the content "success".
+    400 - Bad Request
+        If the request body is not on the format of a GitHub push event.
+    """
     if request.headers['Content-Type'] == 'application/json':
         data = ci_utils.parse(request.json)
         if 'error' in data:
