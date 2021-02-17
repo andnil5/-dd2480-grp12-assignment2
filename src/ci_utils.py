@@ -40,8 +40,6 @@ def parse(data):
     return res
 
 
-
-
 def create_env_file():
     """Creates an environment file with the path ``src/env.py`` defining the
        constants BASE_URL and `TOKEN` as empty strings.
