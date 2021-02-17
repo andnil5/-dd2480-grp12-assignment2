@@ -6,4 +6,3 @@ def test_parse():
     assert 2==2
     assert 3==3
 
-    assert 3==3
