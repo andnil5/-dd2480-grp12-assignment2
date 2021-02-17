@@ -1,5 +1,5 @@
 from src.ci_utils import parse, create_env_file, clone_git_repo
-import os, subprocess, git
+import git
 
 
 def test_parse_correct_keys():
@@ -31,16 +31,3 @@ def test_clone_git_repo():
     clone_git_repo(branch)
     repo = git.Repo('./branch_repo')
     assert repo.active_branch.name == branch
-
-
-# def test_change_dir():
-#     """Test that the change dir can actually change to the directory"""
-#     dir = './branch_repo'
-#     change_dir(dir)
-# #     cwd = os.getcwd().split('/')[-2:]
-#     path = os.path.normpath(os.getcwd())
-#     cwd = path.split(os.sep)[-2:]
-#     cwd_stringified = str(cwd[0]) + '/' + str(cwd[1])
-#     #remove the first dash/hyphon in the repo, since we have updated it
-#     assert cwd_stringified == 'dd2480-grp12-assignment2/branch_repo'
-#     os.chdir('./')

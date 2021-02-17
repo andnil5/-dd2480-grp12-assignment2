@@ -81,7 +81,7 @@ def webhook():
         response = ci_utils.run_test(data['branch'], data['head_commit'])
         response.send_status()
 
-        #remove the branch repo after testing
+        # Remove the branch repo after testing
         if os.path.isdir('./branch_repo'):
             git.rmtree('./branch_repo')
 
