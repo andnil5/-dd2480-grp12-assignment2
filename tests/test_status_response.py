@@ -1,6 +1,7 @@
 import pytest
 import requests_mock
-from src.status_response import Status_response, StatusType, Status, BASE_URL
+from src.status_response import Status_response, StatusType, Status
+from src.env import BASE_URL
 
 
 @pytest.fixture
