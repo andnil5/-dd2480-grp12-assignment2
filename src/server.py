@@ -1,6 +1,6 @@
 from flask import Flask, request, abort
-import ci_utils
-from status_response import Status_response, StatusType
+import src.ci_utils as ci_utils
+from src.status_response import Status_response, StatusType
 import os
 import git
 

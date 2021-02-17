@@ -1,5 +1,5 @@
 from datetime import datetime
-from status_response import Status_response, StatusType
+from src.status_response import Status_response, StatusType
 import git
 import os
 import subprocess
@@ -112,7 +112,7 @@ def run_test(branch, sha):
                      the test.
     """
     os.chdir('./branch_repo')
-    sub_proc = subprocess.run([sys.executable, "-m", "pytest"], capture_output=True)
+    sub_proc = subprocess.run([sys.executable, "-m", "pytest", "tests"], capture_output=True)
     os.chdir('../logs_tests')
     file = "{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)

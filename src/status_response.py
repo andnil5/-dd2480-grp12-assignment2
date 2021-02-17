@@ -1,7 +1,7 @@
 from enum import Enum
 import json
 import requests
-from env import TOKEN, BASE_URL
+from src.env import TOKEN, BASE_URL
 
 
 class Status(Enum):

@@ -1,7 +1,7 @@
 .vscode/
 .DS_Store
 src/env.py
-git_repo/
+branch_repo/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
