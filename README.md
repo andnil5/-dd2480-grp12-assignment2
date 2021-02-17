@@ -1,10 +1,10 @@
 # Assignment 2 - Continuous Integration :earth_americas:
 
-Implementation of a small continuous integration CI server containing core features of continuous integration. 
+Implementation of a small continuous integration (CI) server containing core features of continuous integration. 
 
 ## Features of CI
 
-The core CI features of continous integration are the following: 
+The core features of CI are as follows:
 
 1. **Compilation:**
 Whenever the GitHub webhook registers a push event to the CI server, the repo state of the head commit of the push will be analysed by the CI server. The “compilation” part of the CI workflow consists of the CI server performing a static syntax check of the pushed code by using the linter tool Flake8. The code passes this step if flake8 finds no errors (ignoring warnings and the E501 error).
@@ -87,7 +87,10 @@ This command generates an ngrok URL that should be added to the `BASE_URL` varia
 
 To see the status of your push follow the following steps
 1. Run ngrok
-2. Run `python src/server.py` from the root directory to start the server
+2. Configure an `env.py` file in the root directory, the CI `env.py` file must contain a *personal* GitHub token and a `BASE_URL` where the server runs
+   - `BASE_URL = {BASE_URL}`, string
+   - `TOKEN = {TOKEN}`, string
+2. Run `python src/server.py` from the root directory to start the server, **note** that this **has to** be run from the root directory and **not** from the src directory
 3. Make a change to a file in the repository
 4. `git add .`
 5. `git commit -m "some_message"`
