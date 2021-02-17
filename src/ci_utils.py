@@ -1,8 +1,9 @@
-import subprocess
-import os
-import sys
 from datetime import datetime
-from status_response import Status_response, StatusType
+from src.status_response import Status_response, StatusType
+import git
+import os
+import subprocess
+import sys
 
 
 def parse(data):
@@ -39,21 +40,6 @@ def parse(data):
     return res
 
 
-def change_dir(dir):
-    """Changes the current working directory of the OS.
-
-    Parameters
-    ----------
-    dir : str
-        The path (relative or absolute) to the new directory.
-
-    Returns
-    ----------
-    None.
-    """
-    os.chdir(dir)
-
-
 def create_env_file():
     """Creates an environment file with the path ``src/env.py`` defining the
        constants BASE_URL and `TOKEN` as empty strings.
@@ -62,16 +48,16 @@ def create_env_file():
     ----------
     None.
     """
-    f = open('src/env.py', 'w')
-    f.write('BASE_URL = \'\'\n')
-    f.write('TOKEN = \'\'\n')
-    f.close()
+    file_path = './src/env.py'
+    with open(file_path, 'w+') as f:
+        f.write('TOKEN = \'\'\n')
+        f.write('BASE_URL = \'\'\n')
+        f.close()
 
 
-def setup_repo(branch):
-    """Moves the OS to the directory ``./git_repo``, creates a dummy environment
-       file in that directory and sets the git repo state to the remote head
-       of a specific branch.
+def clone_git_repo(branch):
+    """Clones the repo into ``./branch_repo`` directory and sets the git repo state to the remote head
+       of a specific branch. Adds a dummy environment file ``src/env.py`` in the repo.
 
     Parameters
     ----------
@@ -82,14 +68,15 @@ def setup_repo(branch):
     ----------
     None.
     """
-    change_dir('./git_repo')
+    if os.path.isdir('./branch_repo'):
+        git.rmtree('./branch_repo')
+    os.mkdir('./branch_repo')
+    repo = git.Repo.clone_from('https://github.com/andnil5/dd2480-grp12-assignment2.git', './branch_repo', progress=None)
+    gt = repo.git
+    gt.checkout(branch)
+    os.chdir('./branch_repo')
     create_env_file()
-    cmd = [['git', 'fetch'], ['git', 'checkout', branch], ['git', 'pull']]
-    for c in cmd:
-        p = subprocess.Popen(c)
-        if p.wait() != 0:
-            print('Failed!!!')
-            break
+    os.chdir('..')
 
 
 def log_to_file(file, branch, sha, p):
@@ -112,7 +99,7 @@ def log_to_file(file, branch, sha, p):
     ----------
     None.
     """
-    with open("../" + file, 'a+') as log:
+    with open(file, 'w+') as log:
         # print meta data about test run to the log
         log.write("\n{date} :: {branch} -- {sha}:\n".format(date=datetime.now(), branch=branch, sha=sha))
         # print the test output to the log
@@ -139,10 +126,13 @@ def run_compile(branch, sha):
         A `src.status_response.Status_response` instance representing the
         result of the analysis.
     """
-    sub_proc = subprocess.run([sys.executable, '-m', 'flake8', '--ignore=E501', '../git_repo/'], capture_output=True)
-    file = "logs_compile/{}_{}.txt".format(branch, sha)
+    os.chdir('./branch_repo')
+    sub_proc = subprocess.run([sys.executable, '-m', 'flake8', '--ignore=E501', '../branch_repo/'], capture_output=True)
+    os.chdir('../logs_compile')
+    file = "{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
-    return Status_response(sub_proc.returncode, StatusType.compile, sha, file)
+    os.chdir('..')
+    return Status_response(sub_proc.returncode, StatusType.compile, sha, '/logs_compile/' + file)
 
 
 def run_test(branch, sha):
@@ -165,7 +155,10 @@ def run_test(branch, sha):
         A `src.status_response.Status_response` instance representing the
         result of the test.
     """
-    sub_proc = subprocess.run([sys.executable, "-m", "pytest"], capture_output=True)
-    file = "logs_tests/{}_{}.txt".format(branch, sha)
+    os.chdir('./branch_repo')
+    sub_proc = subprocess.run([sys.executable, "-m", "pytest", "tests"], capture_output=True)
+    os.chdir('../logs_tests')
+    file = "{}_{}.txt".format(branch, sha)
     log_to_file(file, branch, sha, sub_proc)
-    return Status_response(sub_proc.returncode, StatusType.test, sha, file)
+    os.chdir('..')
+    return Status_response(sub_proc.returncode, StatusType.test, sha, '/logs_tests/' + file)

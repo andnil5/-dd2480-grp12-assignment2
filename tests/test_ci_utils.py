@@ -1,4 +1,5 @@
-from src.ci_utils import parse
+from src.ci_utils import parse, clone_git_repo
+import git
 
 
 def test_parse_correct_keys():
@@ -22,3 +23,11 @@ def test_parse_missing_keys():
     assert 'ref' not in res
     assert 'head_commit' not in res
     assert res['error'] == 'Missing key'
+
+
+def test_clone_git_repo():
+    """Test that the setup_repo(branch) makes the branch clone, we test this by cloning another branch repo"""
+    branch = 'test'
+    clone_git_repo(branch)
+    repo = git.Repo('./branch_repo')
+    assert repo.active_branch.name == branch

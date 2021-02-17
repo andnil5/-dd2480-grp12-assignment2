@@ -1,7 +1,8 @@
 from flask import Flask, request, abort
-import ci_utils
-from status_response import Status_response, StatusType
-
+import src.ci_utils as ci_utils
+from src.status_response import Status_response, StatusType
+import os
+import git
 
 app = Flask(__name__)
 
@@ -103,7 +104,7 @@ def webhook():
         Status_response(10, StatusType.test, data['head_commit'], '').send_status()
 
         # Setup branch repo to git_repo which is gitignored
-        ci_utils.setup_repo(data['branch'])
+        ci_utils.clone_git_repo(data['branch'])
 
         # Run compile
         response = ci_utils.run_compile(data['branch'], data['head_commit'])
@@ -113,7 +114,10 @@ def webhook():
         response = ci_utils.run_test(data['branch'], data['head_commit'])
         response.send_status()
 
-        ci_utils.change_dir("../")
+        # Remove the branch repo after testing
+        if os.path.isdir('./branch_repo'):
+            git.rmtree('./branch_repo')
+
         return 'success', 200
     else:
         abort(400)

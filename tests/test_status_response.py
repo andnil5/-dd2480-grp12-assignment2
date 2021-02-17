@@ -129,6 +129,6 @@ def test_send_status():
         code = 0
         file = 'file.txt'
         # Mock the GitHub REST API for a specific commit status request
-        m.post('https://api.github.com/repos/andnil5/-dd2480-grp12-assignment2/statuses/12345', status_code=201)
+        m.post('https://api.github.com/repos/andnil5/dd2480-grp12-assignment2/statuses/12345', status_code=201)
         response = Status_response(code, StatusType.test, sha, file).send_status()
         assert response.status_code == 201
