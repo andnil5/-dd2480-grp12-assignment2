@@ -1,4 +1,4 @@
-from src.ci_utils import parse, create_env_file, clone_git_repo
+from src.ci_utils import parse, clone_git_repo
 import git
 
 
