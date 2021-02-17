@@ -1,10 +1,7 @@
 from enum import Enum
 import json
 import requests
-from env import TOKEN
-
-
-BASE_URL = "http://b134632ff51e.ngrok.io/"
+from env import BASE_URL, TOKEN
 
 
 class Status(Enum):

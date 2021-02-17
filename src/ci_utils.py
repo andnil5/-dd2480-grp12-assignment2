@@ -56,13 +56,14 @@ def change_dir(dir):
 
 def create_env_file():
     """Creates an environment file with the path ``src/env.py`` defining the
-       constant `TOKEN` as an empty string.
+       constants BASE_URL and `TOKEN` as empty strings.
 
     Returns
     ----------
     None.
     """
     f = open('src/env.py', 'w')
+    f.write('BASE_URL = \'\'\n')
     f.write('TOKEN = \'\'\n')
     f.close()
 
